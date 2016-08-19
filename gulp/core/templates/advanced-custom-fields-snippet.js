@@ -1,7 +1,5 @@
-var project = require('../../../project.config');
-
-const dir = __dirname.replace('/gulp/core/templates', '');
-const theme_name = (dir.substr(dir.lastIndexOf('/') + 1));
+var getDevThemeRoot = require('../utils/getDevThemeRoot');
+var themeSrc = require('../config/common').paths.theme.src;
 
 module.exports = [
     '\n\n\n',
@@ -15,10 +13,13 @@ module.exports = [
     ' * for production before deploying!',
     ' *',
     ' */',
-    'if(class_exists(\'acf\')) {',
-    '\tadd_filter(\'acf/settings/save_json\', function ($path) {',
-    '\t\treturn get_theme_root() . \'/' + theme_name + '/theme/acf-json\';',
-    '\t});',
+    'if ( class_exists( \'acf\' ) ) {',
+    '\tadd_filter( \'acf/settings/save_json\', function () {',
+    '\t\treturn get_theme_root()',
+    '\t\t\t. DIRECTORY_SEPARATOR . \'' + getDevThemeRoot() + '\'',
+    '\t\t\t. DIRECTORY_SEPARATOR . \'' + themeSrc + '\'',
+    '\t\t\t. DIRECTORY_SEPARATOR . \'acf-json\';',
+    '\t} );',
     '}',
     ''
 ].join('\n');
