@@ -1,5 +1,5 @@
 var gutil = require('gulp-util');
-var path  = require('path');
+var getDevThemeRoot = require('./getDevThemeRoot');
 
 /**
  * Validate the options passed
@@ -32,7 +32,7 @@ module.exports = function (project) {
 	 * Safely handle misconfigured
 	 * project name
 	 */
-	var devThemeRoot = path.basename(path.resolve('./'));
+	var devThemeRoot = getDevThemeRoot();
 	if (project.name === devThemeRoot) {
 		validationFailed = true;
 
